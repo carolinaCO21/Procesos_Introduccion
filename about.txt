@@ -1,0 +1,53 @@
+Process: crea un hijo que ejecuta una única función aislada; controlas su ciclo de vida manualmente (start, join, terminate).
+start/join: start lanza el hijo en paralelo; join sincroniza y asegura que el padre espere al hijo antes de seguir.
+
+Process(target=funcion, args=parámetros):
+parámetros en tupla ( x,)
+start()= inicia proceso
+join espera a que el proceso acabe (punto de encuentro)
+
+_____________________________________________________________________________________________________________________________________
+
+ADMINISTRA VARIOS PROCESOS YA CREADOS: Pool
+____________________________________________________________________________________________________________________________________
+paralelizar la ejecución
+Pool: gestiona un grupo fijo de procesos reutilizables(evitando crear/destruir procesos para cada tarea); ideal cuando hay muchas tareas similares que asignar a trabajadores.
+map: reparte valores individuales a funciones de aridad 1 y devuelve resultados en orden; bloquea hasta terminar.
+starmap: reparte tuplas de argumentos a funciones con varios parámetros; mismo patrón que map pero desempaqueta cada entrada.
+imap e imap_unordered emiten resultados progresivamente y permiten consumirlos sin esperar al lote completo.
+Proporciona métodos map, starmap, imap, apply_async, etc. 
+Debes cerrar con pool.close o pool.terminate 
+esperar con pool.join.
+_____________________________________________________________________________________________________________________________________
+CANALES DE COMUNICACIÓN: Queue y Pipe 
+______________________________________________________________________________________________________________________________________
+canales seguros para que procesos distintos intercambien datos: 
+Queue sigue un esquema FIFO multi-productor/multi-consumidor,
+Pipe expone dos extremos (Connection) para comunicación punto a punto, ligera y bidireccional.
+
+
+Queue y Pipe requieren cerrar extremos (close(), join_thread()) una vez finalizada la comunicación para no dejar recursos abiertos.
+
+-------------------------------------------------------
+Queue: cola FIFO segura entre procesos; se especializa en pasar múltiples mensajes o datos en serie.
+comunicación entre procesos
+
+------------------------------------------------------------
+Pipe: dos extremos en comunicación bidireccional ligera (par de Connection); óptimo para intercambiar mensajes punto a punto con baja sobrecarga.
+put(elemento): insertar (al final de la cola)
+get(), que devuelve el elemento y además lo elimina de la cola.
+Usar q.close y q.join_thread para liberación limpia tras compartir la cola entre procesos.
+para enviar información, send()
+para recibir información, recv().
+_____________________
+
+------------------------------------------------
+PERMITIR COMPARTIR ESTADO
+ ofrecen memoria compartida o proxies cuando los procesos necesitan compartir estado mutable en vez de solo mensajes.
+Manager lanza un servidor auxiliar que entrega proxies a estructuras complejas (listas, diccionarios), coordinando acceso concurrente cuando compartir memoria directa sería impráctico.
+Value/Array y Manager: Value/Arrays contenedores en memoria compartida que exponen tipos primitivos o arreglos mutables desde múltiples procesos sin copias; 
+Manager ofrece objetos complejos (listas, dicts) coordinados por un servidor para acceso concurrente.
+
+
+
+
