@@ -1,0 +1,49 @@
+Tú controlas: El patrón de lanzamiento/sincronización (paralelo vs secuencial)
+
+Se pueden lanzar en paralelo o secuencial
+
+Tu código define la intención (paralelo/secuencial), el SO la ejecuta según recursos disponibles.
+
+PARALELO ✅ Cuando las tareas son independientes
+SECUENCIAL ✅ Cuando hay dependencias entre tareas
+
+SÍNCRONO vs ASÍNCRONO → Control de flujo
+
+SÍNCRONO (bloquea) ✅ Cuando NECESITAS el resultado
+# Ejemplo: Validar usuario antes de continuar
+usuario = autenticar(credenciales)  # BLOQUEA aquí
+if usuario.valido:
+    mostrar_dashboard()  # NO puedes continuar sin validar
+# → NECESITAS esperar la respuesta
+
+ASÍNCRONO (no bloquea) ✅ Cuando puedes seguir trabajando
+
+# Ejemplo: Enviar email mientras procesas otras cosasasync_result = pool.apply_async(enviar_email, (datos,))# Mientras se envía, hago otras cosasprocesar_datos()guardar_en_db()generar_reporte()# Ahora sí espero el email si lo necesitoasync_result.get()
+
+# Ejemplo: Enviar email mientras procesas otras cosas
+async_result = pool.apply_async(enviar_email, (datos,))
+# Mientras se envía, hago otras cosas
+procesar_datos()
+guardar_en_db()
+generar_reporte()
+# Ahora sí espero el email si lo necesito
+async_result.get()
+____________________________________________________________________________________________________________________________________
+Tabla resumen de usos:
+Situación	Patrón	Razón
+Procesar muchas imágenes	Paralelo + Síncrono	Independientes, necesito todas antes de continuar
+Servidor web con análisis background	Paralelo + Asíncrono	No bloqueo el servidor
+Pipeline de datos (ETL)	Secuencial + Síncrono	Pasos con dependencias
+Enviar emails sin esperar	Paralelo + Asíncrono	Fire-and-forget
+Validar formulario	Secuencial + Síncrono	Necesito resultado para continuar
+
+____________________________________________________________________________________________________________________________________
+
+
+ EN ej1 se usó: PARALELO + SÍNCRONO
+
+Archivo	Patrón	Explicación
+ej1(proceso).py	Paralelo + Síncrono	Lanza 3 procesos a la vez, luego join() espera todos
+ej1(pool).py	Paralelo + Síncrono	pool.map() distribuye en paralelo y bloquea
+ej1(queue).py	Paralelo + Síncrono	Igual que (proceso), usa Queue para resultados
+

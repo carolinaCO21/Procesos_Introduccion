@@ -38,13 +38,13 @@ if __name__ == "__main__":
         #proceso por objetivo
         proceso = Process(target=worker, args=(limite,))
         # lanza cada suma en paralelo
-        proceso.start()
+        proceso.start() # ← Lanza INMEDIATAMENTE cada proceso
         print(f"[Padre] Lanzado hijo PID={proceso.pid} para {limite}")
         #almacenamos la referencia para poder sincronizar después
         procesos.append(proceso)
     #recorre las referencias guardadas y llama a join(); esto bloquea al proceso principal hasta que cada hijo termina su impresión
     for proceso in procesos:
-        proceso.join()
+        proceso.join() # ← Espera a que terminen DESPUÉS de lanzarlos todos
 
     print("Todos los procesos han terminado.")
 

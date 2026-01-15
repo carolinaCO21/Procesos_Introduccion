@@ -10,7 +10,7 @@ ________________________________________________________________________________
 
 ADMINISTRA VARIOS PROCESOS YA CREADOS: Pool
 ____________________________________________________________________________________________________________________________________
-paralelizar la ejecución
+
 Pool: gestiona un grupo fijo de procesos reutilizables(evitando crear/destruir procesos para cada tarea); ideal cuando hay muchas tareas similares que asignar a trabajadores.
 map: reparte valores individuales a funciones de aridad 1 y devuelve resultados en orden; bloquea hasta terminar.
 starmap: reparte tuplas de argumentos a funciones con varios parámetros; mismo patrón que map pero desempaqueta cada entrada.
