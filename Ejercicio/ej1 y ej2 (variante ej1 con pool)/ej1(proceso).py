@@ -8,6 +8,11 @@ Desde el programa principal crea varios procesos que ejecuten la función anteri
 El programa principal debe imprimir un mensaje indicando que todos los procesos han terminado después 
 de que los procesos hayan impreso el resultado.
 
+Modifica el ejercicio anterior para que el programa principal use un Pool para lanzar 
+varios procesos de forma concurrente. Cambia el valor del número de procesos y compara 
+los tiempos que tarda en ejecutarse en los distintos casos.
+
+
 
 """
 
