@@ -61,7 +61,7 @@ Necesitan "tuberías" para hablar entre ellos:
 Queue (Cola): ej. correo. Varios procesos pueden poner mensajes y otros pueden sacarlos. 
 Es segura y sigue el orden (el primero en entrar es el primero en salir). FIFO
 
-Pipe (Tubería): Es una conexión directa entre solo dos procesos. Tiene dos extremos; lo que mandas por uno, 
+Pipe (Tubería): Es una conexión directa entre solo dos procesos (bidireccional). Tiene dos extremos; lo que mandas por uno, 
 sale por el otro. Es más rápido que una Queue pero menos flexible.
 
 
@@ -87,7 +87,7 @@ ________________________________________________________________________________
 ADMINISTRA VARIOS PROCESOS YA CREADOS: Pool
 ____________________________________________________________________________________________________________________________________
 
-Pool: gestiona un grupo fijo de procesos reutilizables(evitando crear/destruir procesos para cada tarea); ideal cuando hay muchas tareas similares que asignar a trabajadores.
+Pool: gestiona un grupo fijo de procesos reutilizables(evitando crear/destruir procesos para cada tarea);
 map: reparte valores individuales a funciones de aridad 1 y devuelve resultados en orden; bloquea hasta terminar.
 starmap: reparte tuplas de argumentos a funciones con varios parámetros; mismo patrón que map pero desempaqueta cada entrada.
 imap e imap_unordered emiten resultados progresivamente y permiten consumirlos sin esperar al lote completo.
@@ -96,6 +96,7 @@ Debes cerrar con pool.close o pool.terminate
 esperar con pool.join.
 _____________________________________________________________________________________________________________________________________
 CANALES DE COMUNICACIÓN: Queue y Pipe 
+ Mecanismos de Comunicación (IPC)
 ______________________________________________________________________________________________________________________________________
 canales seguros para que procesos distintos intercambien datos: 
 Queue sigue un esquema FIFO multi-productor/multi-consumidor,

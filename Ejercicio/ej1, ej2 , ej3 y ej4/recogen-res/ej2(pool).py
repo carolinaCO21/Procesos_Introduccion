@@ -71,3 +71,11 @@ if __name__ == "__main__":
     
     # Más procesos ≠ mejor rendimiento (3-4 procesos son similares o peores)
     # Overhead domina: Crear/gestionar procesos cuesta más que la tarea en
+
+    """
+    Con Pool (automático):
+    El Pool usa IPC internamente (generalmente Pipes o Queues)
+    La función worker simplemente retorna el valor (return total)
+    El Pool captura automáticamente el valor retornado y lo envía al padre
+    pool.map() devuelve directamente los resultados  
+    """

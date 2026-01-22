@@ -33,3 +33,35 @@ if __name__ == "__main__":
     
     print(f"Resultados recogidos: {resultados}")
     print("Todos los procesos han terminado.")
+
+    """
+En este ejercicio se usó IPC (Inter-Process Communication) mediante una Queue (cola) para 
+comunicar los procesos hijos con el proceso padre.
+
+Propósito específico:
+
+Los procesos hijos calculan la suma de secuencias numéricas de concurrente y necesitan enviar 
+sus resultados de vuelta al proceso padre. La Queue permite que:
+
+Los procesos hijos envíen sus resultados al padre: cola.put((limite, total)) - cada proceso
+ hijo pone su resultado en la cola compartida
+
+El proceso padre recoja los resultados: después de esperar a que terminen todos los procesos
+(join()), el padre lee los resultados de la cola con cola.get()
+
+Sin IPC, los procesos hijos calcularían los valores pero no habría forma de comunicar esos
+ resultados al proceso padre, ya que cada proceso tiene su propio espacio de memoria aislado.
+   La Queue resuelve este problema proporcionando un canal de comunicación seguro entre procesos.
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    """

@@ -50,7 +50,7 @@ if __name__ == "__main__":
 
     print("Todos los procesos han terminado.")
 
-
+    #cada proceso hijo solo calcula e imprime su resultado. No necesita comunicar nada al padre no IPC
 
     """
     multiprocessing.Pool: 
