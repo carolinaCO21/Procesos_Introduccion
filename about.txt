@@ -1,3 +1,79 @@
+Se puede lograr concurrencia sin usar programación asíncrona, 
+principalmente a través del Multithreading (Multihilo) o Multiprocessing (Multiprocesamiento).
+
+Técnica	                    ¿Es Concurrente?	        ¿Es Paralela?
+Multithreading (Python)	Sí. Se gestionan varios hilos.	No. El GIL obliga a que solo uno use el núcleo a la vez.
+Multiprocessing	     Sí. Se gestionan varios procesos.  Sí. (Siempre que tengas una CPU con varios núcleos).
+
+1. Concurrencia con Asincronía (Modelo de un solo hilo)
+Un hilo saltando entre tareas pausadas.
+2. Concurrencia sin Asincronía (Modelo multihilo/síncrono)
+Varios hilos ejecutándose en paralelo o alternados.
+
+
+
+Concurrencia mediante Multihilos (Síncronos)
+En este modelo, en lugar de tener un solo hilo que "salta" de tarea en tarea mediante avisos (asincronía), creas múltiples hilos independientes.
+
+Cada hilo es síncrono: El Hilo A se bloquea esperando su dato, pero como tienes un Hilo B funcionando al lado, el sistema en su conjunto es concurrente
+
+Multiprocessing "es siempre concurrente"? Python
+Si tú escribes tu código de forma secuencial, deja de ser concurrente, aunque uses la librería multiprocessing
+Razones:
+1. Por dependencia de datos (Lógica)
+2. Por mal uso de los métodos de control
+    Intención Concurrente: Lanzas todos los procesos y al final esperas a todos.
+    Error Secuencial: Lanzas uno, esperas, lanzas otro, esperas.
+
+    Acción	                                ¿Es Concurrente?	¿Por qué?
+p1.start(), p2.start(), p1.join(), p2.join()	SÍ	            Ambos procesos corren al mismo tiempo mientras el programa principal espera.
+p1.start(), p1.join(), p2.start(), p2.join()	NO	            Es secuencial. p2 no nace hasta que p1 muere. Has desperdiciado recursos.
+pool.map(func, lista)	                        SÍ	            La librería se encarga de repartir el trabajo entre varios núcleos a la vez.
+
+Multiprocessing (Multiprocesamiento).
+Cuando usas multiprocessing en Python con elementos como Process, Pool, Pipe y Queue, estás haciendo Multiprocesamiento.
+
+Paralelismo Real si se puede. Al usar procesos separados, las tareas se ejecutan literalmente al mismo tiempo en diferentes núcleos de tu hardware.
+Multiprocessing es concurrente por diseño, pero solo es paralelo si tu hardware (CPU) lo permite.
+
+Concurrencia (Gestión): Es la capacidad de manejar muchas tareas al mismo tiempo
+
+Paralelismo (Ejecución): Es realizar físicamente varias tareas en el mismo microsegundo
+
+Cuando usas multiprocessing en Python: Es SIEMPRE concurrente ->> Gestión (El programa ya no es una línea recta (secuencial), sino que tiene múltiples flujos activos.)
+
+SI tienes núcleos libres: el Sistema Operativo asignará cada proceso a un núcleo físico distinto ((paralelismo real))
+
+1. Process (El trabajador individual) Ejecutar una tarea en un núcleo aparte.
+Es la unidad básica. Al crear un Process, le pides al sistema operativo que cree una copia de tu programa corriendo en paralelo.
+
+Uso: Cuando tienes pocas tareas largas y quieres control total sobre cuándo empiezan y terminan.
+
+2. Pool (La cuadrilla de trabajadores)
+Es una forma de gestionar un grupo de procesos automáticamente. 
+
+Uso: Para tareas repetitivas y masivas (paralelismo de datos).
+
+3. Mecanismos de Comunicación (IPC)
+Como cada proceso vive en su propio "mundo" (memoria separada), no pueden compartir variables globales. 
+Necesitan "tuberías" para hablar entre ellos:
+
+Queue (Cola): ej. correo. Varios procesos pueden poner mensajes y otros pueden sacarlos. 
+Es segura y sigue el orden (el primero en entrar es el primero en salir). FIFO
+
+Pipe (Tubería): Es una conexión directa entre solo dos procesos. Tiene dos extremos; lo que mandas por uno, 
+sale por el otro. Es más rápido que una Queue pero menos flexible.
+
+
+
+
+
+
+
+
+
+
+_______________________________________________________________________________________________________________________________________
 Process: crea un hijo que ejecuta una única función aislada; controlas su ciclo de vida manualmente (start, join, terminate).
 start/join: start lanza el hijo en paralelo; join sincroniza y asegura que el padre espere al hijo antes de seguir.
 

@@ -1,0 +1,48 @@
+EJERCICIOS - PARTE 1
+Realiza los siguientes ejercicios haciendo uso del módulo multiprocessing visto en clase. En todos los casos, realiza un cálculo del tiempo que tardan en ejecutarse.
+
+_____________________________________________________________________________________________________________________________________________
+1
+Crea una función en Python que sea capaz de sumar todos los números desde el 1 hasta un valor introducido por parámetro, 
+ incluyendo ambos valores y mostrar el resultado por pantalla.
+ Desde el programa principal crea varios procesos que ejecuten la función anterior. 
+ El programa principal debe imprimir un mensaje indicando que todos los procesos han terminado después de que los procesos hayan impreso el resultado.
+_____________________________________________________________________________________________________________________________________________
+2
+Modifica el ejercicio anterior para que el programa principal use un Pool para lanzar varios procesos de forma concurrente. 
+ Cambia el valor del número de procesos y compara los tiempos que tarda en ejecutarse en los distintos casos.
+_____________________________________________________________________________________________________________________________________________
+3
+Realiza el ejercicio anterior pero esta vez va a haber otra función que lea los números de un fichero. En el fichero habrá un número por línea.
+ En este caso, tienes que llevar a cabo una comunicación entre los dos procesos utilizando colas (Queue), de forma que la función que se encarga
+ de leer los números los guarde en la cola, y la función que realiza la suma, recibirá la cola y tomará de ahí los números. 
+ La función que lee el fichero, una vez haya terminado de leer y de añadir elementos a la cola, debe añadir un objeto None para que el receptor sepa cuándo terminar de leer de la cola.
+_____________________________________________________________________________________________________________________________________________
+4
+En este caso, vuelve a realizar la comunicación entre procesos pero usando tuberías (Pipe), de forma que la función que se encarga de leer
+ los números del fichero se los envíe (send) al proceso que se encarga de la suma. El proceso que suma los números tiene que recibir (recv) 
+ un número y realizar la suma. Una vez que el proceso que lee el fichero termine de leer números en el fichero, debe enviar un None. 
+ El que recibe números dejará de realizar sumas cuando reciba un None.
+
+_____________________________________________________________________________________________________________________________________________
+5
+Crea una función en Python que sea capaz de sumar todos los números comprendidos entre dos valores, incluyendo ambos valores 
+ y mostrar el resultado por pantalla. 
+ Estos valores se les pasará como argumentos. Hay que tener presente que el primer argumento puede ser mayor que el segundo, 
+ y habrá que tenerlo presente para realizar la suma.
+ Desde el programa principal crea varios procesos que ejecuten la función anterior. El programa principal debe imprimir un mensaje indicando
+ que todos los procesos han terminado después de que los procesos hayan impreso el resultado.
+_____________________________________________________________________________________________________________________________________________
+6
+Modifica el ejercicio anterior para usar un Pool para lanzar varios procesos de forma concurrente.
+ Recuerda que al tener dos argumentos debes usar el método starmap en vez de map.
+_____________________________________________________________________________________________________________________________________________
+7
+Realiza el ejercicio anterior pero esta vez va a haber otra función que lea los números de un fichero. En el fichero habrá dos números 
+ por línea separados por un espacio. En este caso, tienes que llevar a cabo una comunicación entre los dos procesos utilizando colas (Queue), 
+ de forma que la función que se encarga de leer los números los guarde en la cola, y la función que realiza la suma, recibirá la cola y tomará de ahí los dos números.
+_____________________________________________________________________________________________________________________________________________
+8
+En este caso, vuelve a realizar la comunicación entre procesos pero usando tuberías (Pipe), de forma que la función que se encarga de leer los números 
+ del fichero se los envíe (send) al proceso que los suma. El proceso que suma los números tiene que recibir (recv) los dos números y realizar la suma entre ellos.
+_____________________________________________________________________________________________________________________________________________
