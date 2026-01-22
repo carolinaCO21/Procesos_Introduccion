@@ -53,15 +53,6 @@ Sin IPC, los procesos hijos calcularían los valores pero no habría forma de co
  resultados al proceso padre, ya que cada proceso tiene su propio espacio de memoria aislado.
    La Queue resuelve este problema proporcionando un canal de comunicación seguro entre procesos.
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
     """
