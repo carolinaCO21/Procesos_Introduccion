@@ -66,13 +66,6 @@ sale por el otro. Es más rápido que una Queue pero menos flexible.
 
 
 
-
-
-
-
-
-
-
 _______________________________________________________________________________________________________________________________________
 Process: crea un hijo que ejecuta una única función aislada; controlas su ciclo de vida manualmente (start, join, terminate).
 start/join: start lanza el hijo en paralelo; join sincroniza y asegura que el padre espere al hijo antes de seguir.
@@ -116,7 +109,6 @@ get(), que devuelve el elemento y además lo elimina de la cola.
 Usar q.close y q.join_thread para liberación limpia tras compartir la cola entre procesos.
 para enviar información, send()
 para recibir información, recv().
-_____________________
 
 ------------------------------------------------
 PERMITIR COMPARTIR ESTADO
