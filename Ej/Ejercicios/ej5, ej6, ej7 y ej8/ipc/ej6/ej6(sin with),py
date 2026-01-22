@@ -1,0 +1,66 @@
+"""
+Modifica el ejercicio anterior para usar un Pool
+ para lanzar varios procesos de forma concurrente.
+ Recuerda que al tener dos argumentos debes usar el
+ método starmap en vez de map.
+
+"""
+
+import os
+from multiprocessing import Pool
+
+
+def sumSecuencia(inicio: int, fin: int) -> int:
+    # Si inicio es mayor que fin, invertimos los valores para hacer la suma correcta
+    if inicio > fin:
+        return sum(range(fin, inicio+1))
+    return sum(range(inicio, fin+1))
+
+
+def worker(i: int, f: int):
+    resultado = sumSecuencia(i, f)
+    print(f"Suma desde {i} hasta {f}: {resultado}")
+    # Retornamos el resultado para que Pool pueda recogerlo
+    return resultado
+
+if __name__ == '__main__':
+    print(f"[Padre] PID={os.getpid()}")
+
+    ranges = [(1, 4), (3, 7), (5, 10)]
+
+    # Creamos un Pool de procesos sin usar 'with'
+    # Pool gestiona automáticamente un conjunto de procesos worker
+    pool = Pool()
+    
+    # starmap() distribuye las tuplas de 'ranges' entre los procesos del Pool
+    # starmap es necesario cuando la función recibe múltiples argumentos
+    # map() es para funciones con un solo argumento
+    # starmap() desempaqueta cada tupla y pasa los elementos como argumentos separados
+    resultados = pool.starmap(worker, ranges)
+    
+    # close() indica que no se añadirán más tareas al Pool
+    # Es importante llamarlo antes de join()
+    pool.close()
+    
+    # join() bloquea el programa hasta que todos los procesos del Pool terminen
+    # Solo se puede llamar después de close()
+    pool.join()
+    
+    print("[Padre] Todos los procesos han terminado.")
+    print(f"Resultados obtenidos: {resultados}")
+
+    """
+join() espera a que todos los procesos worker del
+ Pool terminen, pero necesita saber que el Pool
+   ya no va a aceptar más tareas.
+
+Si llamas a join() sin haber llamado a close() primero:
+
+El Pool seguiría técnicamente "abierto" para recibir nuevas tareas
+join() no sabría cuándo debe finalizar la espera
+Podría causar comportamiento indefinido o bloqueos
+Flujo correcto:
+
+pool.starmap(...) → Envía tareas al Pool
+pool.close() → "No enviaremos más tareas"
+pool.join() → "Espero aquí hasta que todos los workers terminen"""
