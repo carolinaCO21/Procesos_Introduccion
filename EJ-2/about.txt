@@ -1,0 +1,5 @@
+Este es un archivo de ejemplo para contar vocales.
+Contiene varias lineas de texto.
+El objetivo es que el script de python lo lea y cuente cuantas vocales tiene.
+Lorem ipsum dolor sit amet.
+Consectetur adipiscing elit.
