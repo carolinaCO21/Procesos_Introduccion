@@ -1,0 +1,27 @@
+En cada ejercicio hay que decidir qué parámetros de entrada tendrá cada proceso. En todo momento hay que elegir la menor cantidad posible de ellos.
+Escribe comentarios que expliquen de manera sintética las decisiones que estás tomando.
+
+
+EJERCICIO 2 (4,25 ptos + 0,75 comentarios)
+
+Para realizar este ejercicio tendrás que hacer uso del fichero salarios.txt que se adjunta a la tarea. 
+Este fichero deberá estar dentro de la carpeta donde realices este ejercicio.
+
+En este caso tienes que crear distintos procesos que realicen las siguientes acciones:
+
+Proceso 1: 
+Recibirá el nombre de un departamento y enviará al proceso 2 aquellas líneas del fichero que
+contengan dicho departamento.
+Estas líneas contendrán toda la información menos el departamento.
+
+Proceso 2: Recibirá un salario mínimo. De las líneas que le llegan del Proceso 1 enviará al proceso 3 aquellas 
+líneas cuyo salario sea mayor o igual que el salario mínimo recibido. Enviará las líneas tal y como le llegan.
+
+
+Proceso 3: Tomará las líneas recibidas del proceso 2 y las escribirá en un fichero llamado empleados.txt con el siguiente formato:
+Apellido Nombre, Salario
+
+
+Main: Pedirá al usuario que introduzca por teclado el nombre de un departamento y un salario mínimo. 
+Lanzará los procesos en el orden que corresponda y utilizando el medio de comunicación entre ellos más apropiado.
+El main debe esperar a que terminen todos los procesos.

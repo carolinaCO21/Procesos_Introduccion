@@ -1,0 +1,29 @@
+En cada ejercicio hay que decidir qué parámetros de entrada tendrá cada proceso. En todo momento hay que elegir la menor cantidad posible de ellos.
+Escribe comentarios que expliquen de manera sintética las decisiones que estás tomando.
+
+
+EJERCICIO 1 (4,25 ptos + 0,75 comentarios)
+En este ejercicio debes implementar los siguientes procesos 
+y el Main como se explica a continuación:
+
+
+Proceso 1:  
+Generar de forma aleatoria 24 temperaturas ( 0 a 20) que contendrán dos decimales
+Las temperaturas se escribirán en un fichero cuyo nombre será la fecha 1 de diciembre -> lamará 01-12.txt.
+
+Proceso 2: Leerá de un fichero las temperaturas registradas en un día y escribirá en el fichero maximas.txt
+ la fecha y la temperatura máxima registrada en ese día separadas por dos puntos (:).
+
+
+Proceso 3: Leerá de un fichero las temperaturas registradas en un día y escribirá en el fichero minimas.txt 
+la fecha y la temperatura mínima registrada en ese día separadas por dos puntos (:).
+
+
+Main: 
+Lanzará 31 veces de forma simultánea el Proceso 1 para que genere temperaturas aleatorias para los 31 
+días del mes de diciembre. 
+
+
+Al final se deberán haber creado 31 ficheros, uno por cada día, y cada fichero 
+con 24 temperaturas. A continuación, se lanzarán de forma simultánea los Procesos 2 y 3, y los dos también 
+31 veces, puesto que se encargarán de leer las temperaturas de los 31 ficheros generados en el paso anterior.
