@@ -1,7 +1,7 @@
 """
 EJERCICIO 1 - Temperaturas de Diciembre
 ========================================
-Este programa genera temperaturas aleatorias para los 31 días de diciembre
+El programa genera temperaturas aleatorias para los 31 días de diciembre
 utilizando multiprocesamiento.
 
 DECISIONES DE DISEÑO:
@@ -18,6 +18,14 @@ import os
 
 # Directorio donde se guardarán los archivos
 DIRECTORIO = os.path.dirname(os.path.abspath(__file__))
+
+# Variable global para el lock (se inicializará en cada proceso)
+lock = None
+
+def init_worker(l):
+    """Inicializador para compartir el lock entre procesos"""
+    global lock
+    lock = l
 
 
 def proceso1_generar_temperaturas(dia):
@@ -61,12 +69,16 @@ def proceso2_maximas(dia):
     temp_maxima = max(temperaturas)
     fecha = f"{dia:02d}-12"
     
-    # Escribir en maximas.txt (con lock para evitar conflictos de escritura)
-    with open(archivo_maximas, 'a') as f:
-        f.write(f"{fecha}:{temp_maxima}\n")
-    
+    # Proceso intenta entrar aquí...
+    with lock:  
+        # Si otro proceso está dentro, el programa SE DETIENE aquí y espera.
+        # Si está libre, entra, cierra la puerta y escribe.
+        with open(archivo_maximas, 'a') as f:
+            f.write(f"{fecha}:{temp_maxima}\n")
+# Al salir del bloque, el lock se libera automáticamente.
     print(f"Máxima del día {dia:02d}-12: {temp_maxima}")
 
+# comentario:  la escritura en el disco se vuelve secuencial (uno detrás de otro) en lugar de paralela, garantizando que ninguna línea se pierda ni se corrompa.
 
 def proceso3_minimas(dia):
     """
@@ -88,8 +100,9 @@ def proceso3_minimas(dia):
     fecha = f"{dia:02d}-12"
     
     # Escribir en minimas.txt
-    with open(archivo_minimas, 'a') as f:
-        f.write(f"{fecha}:{temp_minima}\n")
+    with lock:
+        with open(archivo_minimas, 'a') as f:
+            f.write(f"{fecha}:{temp_minima}\n")
     
     print(f"Mínima del día {dia:02d}-12: {temp_minima}")
 
@@ -126,9 +139,18 @@ def main():
     print("PASO 2: Calculando máximas y mínimas")
     print("=" * 50)
     
+    # Manager para crear un lock compartido
+    #  El Manager es especial porque crea objetos que pueden ser compartidos entre distintos procesos de memoria separada.
+    m = multiprocessing.Manager()
+    l = m.Lock()
+
+    #El Lock (o cerrojo) es un mecanismo de sincronización que sirve para poner orden cuando varios procesos intentan acceder al mismo recurso a la vez (como maximas.txt o minimas.txt).
+    #Sin el Lock, ocurre  ( ej comprobado -> ej real: error del "día 15 desaparecido en minimas.txt"): una Condición de Carrera (Race Condition).
+    # Evitamos perder datos o escribir información incorrecta al asegurarnos de que solo un proceso pueda escribir en el archivo a la vez.
+
     # Lanzar simultáneamente los Procesos 2 y 3 (31 veces cada uno)
     # Usamos dos pools separados para que se ejecuten en paralelo
-    with multiprocessing.Pool() as pool:
+    with multiprocessing.Pool(initializer=init_worker, initargs=(l,)) as pool:
         # Lanzar procesos de máximas y mínimas simultáneamente
         resultado_maximas = pool.map_async(proceso2_maximas, dias)
         resultado_minimas = pool.map_async(proceso3_minimas, dias)
@@ -147,3 +169,13 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+"""
+Por qué Pool:
+
+Simplifica la ejecución de muchas tareas idénticas
+31 días diferentes haciendo exactamente lo mismo
+
+pool.map) se encarga de repartir el trabajo de los 31 días automáticamente.
+optimizando el tiempo total de ejecución.
+"""

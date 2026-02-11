@@ -1,7 +1,7 @@
 """
 EJERCICIO 2 - Filtrado de Empleados por Departamento y Salario
 ===============================================================
-Este programa filtra empleados de un fichero usando tres procesos
+El programa filtra empleados de un fichero usando tres procesos
 que se comunican mediante Pipes.
 
 DECISIONES DE DISEÑO:
@@ -179,16 +179,21 @@ def main():
         args=(departamento, conn1_send)
     )
     
+    # Iniciar todos los procesos
+    # IMPORTANTE: Iniciar antes de cerrar los pipes locales, o fallará en Windows
+    p3.start()
+    p2.start()
+    p1.start()
+
+# Comentario:
+    #Primero hago los start() (para que los hijos reciban sus conexiones abiertas).
+    #Después hago los close() en el padre para que el padre no se quede con copias abiertas que impidan que los hijos detecten el fin de la comunicación.
     # Cerrar conexiones en el proceso principal que no usamos
+    # Ahora sí podemos liberar los recursos locales
     conn1_send.close()
     conn1_recv.close()
     conn2_send.close()
     conn2_recv.close()
-    
-    # Iniciar todos los procesos
-    p3.start()
-    p2.start()
-    p1.start()
     
     # Esperar a que terminen todos los procesos
     p1.join()
@@ -213,3 +218,9 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+"""
+El programa procesa líneas de texto una por una, en orden.
+No necesito persistencia, ni acceso aleatorio, ni que varios procesos compitan por coger el dato.
+
+"""
